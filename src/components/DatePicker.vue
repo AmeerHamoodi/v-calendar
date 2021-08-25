@@ -56,6 +56,9 @@ export default {
     const timePicker = () => {
       if (!this.dateParts) return null;
       const parts = this.isRange ? this.dateParts : [this.dateParts[0]];
+
+      // console.log(this.minHour, this.$attrs);
+
       return h('div', [
         ...parts.map((dp, idx) =>
           h(TimePicker, {
@@ -67,6 +70,8 @@ export default {
               minuteIncrement: this.minuteIncrement,
               showBorder: !this.isTime,
               isDisabled: (this.isDateTime && !dp.isValid) || this.isDragging,
+              minHour: this.minHour,
+              maxHour: this.maxHour,
             },
             on: { input: p => this.onTimeInput(p, idx === 0) },
           }),
@@ -163,6 +168,8 @@ export default {
     dragAttribute: Object,
     selectAttribute: Object,
     attributes: Array,
+    minhour: Number,
+    maxhour: Number,
   },
   data() {
     return {

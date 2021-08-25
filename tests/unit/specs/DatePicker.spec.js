@@ -155,6 +155,25 @@ describe('DatePicker', () => {
         end: new Date('2021-01-01T12:15:00.000Z'),
       });
     });
+
+    it(':min/max-hour - display correct date range in 24 hour format', async () => {
+      const dp = mountWithInputs({
+        value: null,
+        mode: 'time',
+        isRange: true,
+        modelConfig: {
+          type: 'string',
+          fillDate: new Date(2021, 0, 1),
+        },
+        minHour: 4,
+        maxHour: 19
+      });
+      await updateInputs(dp, '12:15 PM', '12:15 PM');
+      expect(dp.vm.value_).toEqual({
+        start: new Date('2021-01-01T12:15:00.000Z'),
+        end: new Date('2021-01-01T12:15:00.000Z'),
+      });
+    });
   });
 });
 
@@ -165,7 +184,7 @@ function mountWithInputs(props) {
       timezone: 'utc',
     },
     scopedSlots: {
-      default: function(sProps) {
+      default: function (sProps) {
         if (props.isRange) {
           return this.$createElement('div', [
             this.$createElement('input', {

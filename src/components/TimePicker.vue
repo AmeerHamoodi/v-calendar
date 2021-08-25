@@ -75,6 +75,8 @@ export default {
     minuteIncrement: { type: Number, default: 1 },
     showBorder: Boolean,
     isDisabled: Boolean,
+    minHour: { type: Number, default: 0 },
+    maxHour: { type: Number, default: 24 },
   },
   data() {
     return {
@@ -133,8 +135,21 @@ export default {
         { value: 23, label: '23' },
       ];
 
-      if (this.is24hr) return options24;
-      return options12;
+      if (this.is24hr) {
+        const min = options24.findIndex(item => item.value === this.minHour);
+        const max = options24.findIndex(item => item.value === this.maxHour);
+
+        // console.log(options24);
+
+        return options24.slice(min < 0 ? 0 : min, max < 0 ? 24 : max);
+      }
+
+      const min = options12.findIndex(item => item.value === this.minHour);
+      const max = options12.findIndex(item => item.value === this.maxHour);
+
+      // console.log(this.minHour, min, options12);
+
+      return options12.slice(min < 0 ? 0 : min, max < 0 ? 24 : max);
     },
     minuteOptions() {
       const options = [];
